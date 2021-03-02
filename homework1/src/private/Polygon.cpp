@@ -1,4 +1,5 @@
 #include "..\public\Polygon.h"
+#include <iostream>
 
 // condition on self-intersections
 bool Polygon::_check() const
@@ -12,16 +13,18 @@ bool Polygon::_check() const
 	auto _get_zcrossproduct = [](const vector_t& e1, const vector_t& e2)
 			{ return e1.end.getX() * e2.end.getY() - e1.end.getY() * e2.end.getX(); };
 	
-	int _calc = _get_zcrossproduct(make_vector_t(_points.at(0), _points.at(1)), make_vector_t(_points.at(1), _points.at(2)));
-
+	int sign = _get_zcrossproduct(make_vector_t(_points.at(0), _points.at(1)),
+								make_vector_t(_points.at(1), _points.at(2))) 
+																		>= 0 ? 1 : 0;
+	int _calc;
 
 	for (auto it1 = _points.begin() + 1; it1 != _points.end(); ++it1)
 	{
 		for (auto it2 = it1 + 1; it2 != _points.end(); ++it2)
 		{
-			_calc *= _get_zcrossproduct(make_vector_t(*(it1 - 1), *it1), make_vector_t(*(it2 - 1), *it2));
-			_calc = (_calc > 0) ? 1 : -1;
-			if (_calc < 0)
+			_calc = _get_zcrossproduct(make_vector_t(*(it1 - 1), *it1), make_vector_t(*(it2 - 1), *it2));
+			
+			if (_calc * sign < 0)
 				return false;
 		}
 
@@ -36,25 +39,29 @@ bool Polygon::_check() const
 Polygon::Polygon(const std::vector<Point>& v)
 	: ClosedPolygonalChain(v)
 {
-	_check();
+	if (!_check())
+		throw;
 }
 
 Polygon::Polygon(int size, Point* points)
 	: ClosedPolygonalChain(size, points)
 {
-	_check();
+	if (!_check())
+		throw;
 }
 
 Polygon::Polygon(std::initializer_list<Point>& points)
 	: ClosedPolygonalChain(points)
 { 
-	_check();
+	if (!_check())
+		throw;
 }
 
 Polygon::Polygon(const Polygon& other)
 	: ClosedPolygonalChain(other)
 {
-	_check();
+	if (!_check())
+		throw;
 }
 
 
