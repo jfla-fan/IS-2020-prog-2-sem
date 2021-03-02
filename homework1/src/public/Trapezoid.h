@@ -17,6 +17,8 @@ public:
 
 	Trapezoid(const Trapezoid& other);
 	
+	Trapezoid& operator = (const Trapezoid& another);
+
 	double height() const;
 
 	inline int getN() const override;

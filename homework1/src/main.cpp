@@ -4,6 +4,7 @@
 // every class should have:
 // constructors
 // copy constructor
+// assignment operator
 // perimeter if available
 // area if available
 // other methods and fields

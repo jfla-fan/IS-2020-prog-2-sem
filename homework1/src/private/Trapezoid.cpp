@@ -51,9 +51,20 @@ Trapezoid::Trapezoid(const Trapezoid& other)
 	: ClosedPolygonalChain(other),
 	_base1(Point::distance(other.getPoint(1), other.getPoint(2))),
 	_base2(Point::distance(other.getPoint(0), other.getPoint(3)))
-{ 
-	if (!_check())
-		throw;
+{ }
+
+Trapezoid& Trapezoid::operator = (const Trapezoid& another)
+{
+	if (&another == this)
+		return *this;
+
+	__super::operator = (another);
+
+	_base1 = another._base1;
+	_base2 = another._base2;
+
+
+	return *this;
 }
 
 double Trapezoid::height() const
@@ -66,9 +77,6 @@ double Trapezoid::height() const
 	return sqrt(pow(c, 2) - pow((pow(a - b, 2) + pow(c, 2) - pow(d, 2)) / (2 * (a - b)), 2));
 }
 
-inline int Trapezoid::getN() const { return 4; }
+inline double Trapezoid::area() const { return height() * (_base1 + _base2) / 2; }
 
-inline double Trapezoid::area() const
-{
-	return height() * (_base1 + _base2) / 2;
-}
+inline int Trapezoid::getN() const { return 4; }
