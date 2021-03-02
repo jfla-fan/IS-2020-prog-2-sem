@@ -15,7 +15,7 @@ bool Polygon::_check() const
 	
 	int sign = _get_zcrossproduct(make_vector_t(_points.at(0), _points.at(1)),
 								make_vector_t(_points.at(1), _points.at(2))) 
-																		>= 0 ? 1 : 0;
+					>= 0 ? 1 : -1;
 	int _calc;
 
 	for (auto it1 = _points.begin() + 1; it1 != _points.end(); ++it1)

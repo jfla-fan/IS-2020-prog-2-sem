@@ -39,7 +39,6 @@ int main()
 	a[1] = Point();
 	assert(cpc.getN() == 3 && cpc.getPoint(1).getX() == 3 && cpc.getPoint(1).getY() == 4);
 
-
 	assert(cpc.perimeter() == 12);
 	InheritancePolygonalChainCheck(&pc, &cpc);
 	assert(p.area() == 6);
