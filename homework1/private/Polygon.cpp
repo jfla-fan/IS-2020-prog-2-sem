@@ -68,6 +68,7 @@ Polygon::Polygon(const Polygon& other)
 
 double Polygon::area() const
 {
+	//todo ints
 	double s = 0;
 
 	for (size_t i = 0; i < _points.size() - 1; ++i)

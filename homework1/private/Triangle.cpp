@@ -26,6 +26,7 @@ double Triangle::perimeter()
 
 double Triangle::area()
 {
+	//no Heron's
 	double a = Point::distance(_a, _b);
 	double b = Point::distance(_b, _c);
 	double c = Point::distance(_a, _c);
@@ -35,6 +36,7 @@ double Triangle::area()
 	return std::sqrt(p * (p - a) * (p - c) * (p - c));
 }
 
+//todo without sqrt
 bool Triangle::hasRightAngle() const
 {
 	double a = Point::distance(_a, _b);
