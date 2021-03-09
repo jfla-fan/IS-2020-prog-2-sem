@@ -1,4 +1,4 @@
-#include "..\public\Trapezoid.h"
+#include "Trapezoid.h"
 
 
 // trapezoid has the following conditions:
@@ -58,7 +58,7 @@ Trapezoid& Trapezoid::operator = (const Trapezoid& another)
 	if (&another == this)
 		return *this;
 
-	__super::operator = (another);
+    ClosedPolygonalChain::operator = (another);
 
 	_base1 = another._base1;
 	_base2 = another._base2;
@@ -79,4 +79,3 @@ double Trapezoid::height() const
 
 inline double Trapezoid::area() const { return height() * (_base1 + _base2) / 2; }
 
-inline int Trapezoid::getN() const { return 4; }

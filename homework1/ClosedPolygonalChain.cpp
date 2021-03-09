@@ -1,4 +1,4 @@
-#include "..\public\ClosedPolygonalChain.h"
+#include "ClosedPolygonalChain.h"
 
 
 ClosedPolygonalChain::ClosedPolygonalChain(const std::vector<Point>& v)
@@ -13,13 +13,13 @@ ClosedPolygonalChain::ClosedPolygonalChain(std::initializer_list<Point>& points)
 	: PolygonalChain(points)
 { }
 
-ClosedPolygonalChain::ClosedPolygonalChain(const ClosedPolygonalChain& other)
-	: PolygonalChain(other)
-{ }
+//ClosedPolygonalChain::ClosedPolygonalChain(const ClosedPolygonalChain& other)
+//	: PolygonalChain(other)
+//{ }
 
 
 double ClosedPolygonalChain::perimeter() const
 {
-	double p = __super::perimeter() + ((getN() > 2) ? Point::distance(_points.front(), _points.back()) : 0);
+	double p = PolygonalChain::perimeter() + ((getN() > 2) ? Point::distance(_points.front(), _points.back()) : 0);
 	return p;
 }

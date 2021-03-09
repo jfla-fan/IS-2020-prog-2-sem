@@ -10,7 +10,7 @@ public:
 
 	RegularPolygon(int size, Point* points);
 
-	RegularPolygon(const std::vector<Point>& points);
+	explicit RegularPolygon(const std::vector<Point>& points);
 
 	RegularPolygon(std::initializer_list<Point>& points);
 
@@ -22,7 +22,7 @@ protected:
 
 	double _sideLength;
 
-	virtual bool _check() const override;
+	bool _check() const override;
 	
 };
 

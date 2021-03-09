@@ -1,4 +1,4 @@
-#include "..\public\RegularPolygon.h"
+#include "RegularPolygon.h"
 
 
 bool RegularPolygon::_check() const

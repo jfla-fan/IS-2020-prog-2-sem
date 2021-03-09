@@ -10,7 +10,7 @@ class PolygonalChain : public Shape
 {
 public:
 
-	PolygonalChain(const std::vector<Point>& v);
+	explicit PolygonalChain(const std::vector<Point>& v);
 
 	PolygonalChain(int size, Point* points);
 
@@ -18,11 +18,13 @@ public:
 
 	PolygonalChain(const PolygonalChain& other);
 
+	virtual ~PolygonalChain() = default;
+
 	PolygonalChain& operator = (const PolygonalChain& another);
 
 	virtual double perimeter() const;
 
-	int getN() const override;
+	inline int getN() const override { return static_cast<int>(_points.size()); }
 
 	Point getPoint(int point_pos) const;
 

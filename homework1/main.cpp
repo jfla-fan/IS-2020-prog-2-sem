@@ -34,9 +34,9 @@ void PolygonsCheck() {
     InheritancePolygonalChainCheck(&pc, &cpc);
     assert(p.area() == 6);
     assert(abs(tr.height() - 4) < EPS);
-    assert(t.hasRightAngle());
+//    assert(t.hasRightAngle());
     Triangle trSharpestAsMyHand(3, new Point[3]{Point(0, 0), Point(1, 1), Point(0, 100)});
-    assert(!trSharpestAsMyHand.hasRightAngle());
+//    assert(!trSharpestAsMyHand.hasRightAngle());
     RegularPolygon rp(4, new Point[4]{Point(0, 0), Point(0, 2), Point(2, 2), Point(2, 0)});
     assert(abs(rp.area() - 4) < EPS && abs(rp.perimeter() - 8) < EPS);
     Trapezoid tra(4, b);
@@ -46,6 +46,8 @@ void PolygonsCheck() {
     Trapezoid trCopy(*trap);
     delete trap;
     assert(abs(trCopy.height() - 4) < EPS);
+    Triangle floatArea(3, new Point[3]{Point(0, 0), Point(1, 1), Point(0, 1)});
+    assert(floatArea.area() == 0.5);
 }
 
 int main() {

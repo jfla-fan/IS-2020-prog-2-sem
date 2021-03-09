@@ -1,9 +1,10 @@
 #pragma once
 
-#include "public\Point.h"
-#include "public\PolygonalChain.h"
-#include "public\ClosedPolygonalChain.h"
-#include "public\Polygon.h"
-#include "public\RegularPolygon.h"
-#include "public\Trapezoid.h"
-#include "public\Triangle.h"
+
+#include "Point.h"
+#include "PolygonalChain.h"
+#include "ClosedPolygonalChain.h"
+#include "Polygon.h"
+#include "RegularPolygon.h"
+#include "Trapezoid.h"
+#include "Triangle.h"

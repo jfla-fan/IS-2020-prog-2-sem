@@ -18,7 +18,7 @@ public:
 	inline int getX() const { return _x; }
 	inline int getY() const { return _y; }
 
-	int getN() const;
+	inline int getN() const override { return 1; }
 
 	Point& operator = (const Point& p);
 

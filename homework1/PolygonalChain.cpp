@@ -1,17 +1,17 @@
-#include "..\public\PolygonalChain.h"
+#include "PolygonalChain.h"
 
 
 PolygonalChain::PolygonalChain(const std::vector<Point>& v)
 	: _points(v)
 { 
-	if (_points.size() == 0)
+	if (_points.empty())
 		throw;
 }
 
 PolygonalChain::PolygonalChain(std::initializer_list<Point>& points)
 	: _points(points.begin(), points.end())
 {
-	if (_points.size() == 0)
+	if (_points.empty())
 		throw;
 }
 
@@ -39,7 +39,7 @@ PolygonalChain& PolygonalChain::operator = (const PolygonalChain& another)
 
 double PolygonalChain::perimeter() const
 {
-	if (_points.size() == 0)
+	if (_points.empty())
 		return 0;
 
 	double p = 0;
@@ -50,8 +50,6 @@ double PolygonalChain::perimeter() const
 
 	return p;
 }
-
-inline int PolygonalChain::getN() const { return static_cast<int>(_points.size()); }
 
 Point PolygonalChain::getPoint(int point_pos) const { return _points.at(point_pos); }
 

@@ -1,4 +1,4 @@
-#include "..\public\Polygon.h"
+#include "Polygon.h"
 #include <iostream>
 
 // condition on self-intersections
@@ -7,7 +7,6 @@ bool Polygon::_check() const
 	typedef struct { Point end; } vector_t;
 
 #define make_vector_t(p1, p2) vector_t { Point((p2).getX() - (p1).getX(), (p2).getY() - (p1).getY()) }
-
 
 	// checking z-cross-product
 	auto _get_zcrossproduct = [](const vector_t& e1, const vector_t& e2)
@@ -68,19 +67,17 @@ Polygon::Polygon(const Polygon& other)
 
 double Polygon::area() const
 {
-	//todo ints
-	double s = 0;
+    // fixed: ints
+	int s = 0;
 
 	for (size_t i = 0; i < _points.size() - 1; ++i)
 	{
-		s += static_cast<double>(_points[i].getX()) * static_cast<double>(_points[i + 1].getY()) -
-			 static_cast<double>(_points[i + 1].getX()) * static_cast<double>(_points[i].getY());
+		s += _points[i].getX() * _points[i + 1].getY() -
+			 _points[i + 1].getX() * _points[i].getY();
 	}
 
-	s += static_cast<double>(_points.back().getX()) * static_cast<double>(_points.front().getY()) - 
-		 static_cast<double>(_points.front().getX()) * static_cast<double>(_points.back().getY());
+	s += _points.back().getX() * _points.front().getY() -
+		 _points.front().getX() * _points.back().getY();
 
-	s /= 2;
-
-	return std::abs(s);
+	return static_cast<double>(std::abs(s)) / 2;
 }

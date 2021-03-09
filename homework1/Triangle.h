@@ -19,7 +19,7 @@ public:
 
 	bool hasRightAngle() const;
 
-	int getN() const override;
+	inline int getN() const override { return 3; }
 
 	Triangle& operator = (const Triangle& another);
 

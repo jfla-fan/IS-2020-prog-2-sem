@@ -8,7 +8,7 @@ class Polygon : public ClosedPolygonalChain
 {
 public:
 	
-	Polygon(const std::vector<Point>& v);
+	explicit Polygon(const std::vector<Point>& v);
 
 	Polygon(int size, Point* points);
 

@@ -1,4 +1,4 @@
-#include "../public/Point.h"
+#include "Point.h"
 
 
 Point::Point(int x, int y)
@@ -31,5 +31,3 @@ double Point::distance(const Point& lhs, const Point& rhs)
 {
 	return std::sqrt(std::pow(rhs._x - lhs._x, 2) + std::pow(rhs._y - lhs._y, 2));
 }
-
-inline int Point::getN() const { return 1; }

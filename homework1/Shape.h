@@ -6,5 +6,5 @@
 class Shape
 {
 public:
-	virtual int getN() const = 0;
+	virtual inline int getN() const = 0;
 };

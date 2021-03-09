@@ -9,7 +9,7 @@ class Trapezoid : public ClosedPolygonalChain
 {
 public:
 	
-	Trapezoid(const std::vector<Point>& v);
+	explicit Trapezoid(const std::vector<Point>& v);
 
 	Trapezoid(int size, Point* points);
 
@@ -17,11 +17,13 @@ public:
 
 	Trapezoid(const Trapezoid& other);
 	
+    virtual ~Trapezoid() = default;
+
 	Trapezoid& operator = (const Trapezoid& another);
 
 	double height() const;
 
-	inline int getN() const override;
+	inline int getN() const override { return 4; }
 
 	inline double area() const;
 
