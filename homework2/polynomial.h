@@ -40,6 +40,7 @@ public:
     Polynomial operator + (const Polynomial& another) const;
     Polynomial operator - (const Polynomial& another) const;
 
+    //todo method
     friend Polynomial operator + (const Polynomial& another);
     friend Polynomial operator - (const Polynomial& another);
 
@@ -51,6 +52,7 @@ public:
     Polynomial operator / (const int& another) const;
     friend Polynomial operator * (const int& another, const Polynomial& pol);
 
+    //todo int
     Polynomial& operator *= (const int& another);
     Polynomial& operator /= (const int& another);
 

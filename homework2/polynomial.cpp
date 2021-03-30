@@ -152,7 +152,7 @@ Polynomial::~Polynomial()
 {
     delete[] _coefficients;
 }
-
+//todo get O(n)
 double Polynomial::get(int argument) const
 {
     double result = 0;
@@ -283,6 +283,7 @@ Polynomial operator - (const Polynomial& pol)
     return result;
 }
 
+//todo + from +=
 Polynomial Polynomial::operator + (const Polynomial &another) const
 {
     int min_p   = std::min(this->_min_power, another._min_power);
@@ -302,6 +303,7 @@ Polynomial Polynomial::operator + (const Polynomial &another) const
     return result;
 }
 
+//todo without creating new object
 Polynomial Polynomial::operator - (const Polynomial &another) const
 {
     return (*this) + (-another);
@@ -364,6 +366,7 @@ Polynomial operator * (const int& another, const Polynomial& pol)
 
 Polynomial &Polynomial::operator *= (const int &another)
 {
+	//todo for_each
     for (int i = 0; i < _size; ++i)
         _coefficients[i] *= another;
 
@@ -374,7 +377,8 @@ Polynomial &Polynomial::operator *= (const int &another)
 
 Polynomial &Polynomial::operator /= (const int &another)
 {
-    return (*this) *= (1/another);
+	//todo it doesnt work
+    return (*this) *= (1 / another);
 }
 
 Polynomial Polynomial::operator * (const Polynomial &another) const
@@ -422,12 +426,3 @@ Polynomial &Polynomial::operator *= (const Polynomial &another)
 
     return *this;
 }
-
-
-
-
-
-
-
-
-
