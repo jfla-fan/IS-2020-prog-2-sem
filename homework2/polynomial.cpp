@@ -237,10 +237,9 @@ std::ostream &operator << (std::ostream &os, const Polynomial &pol)
     return os;
 }
 
-// todo
 std::istream &operator >> (std::istream &is, Polynomial &pol)
 {
-    std::map<int, int> tokens; // coefficients[power] = coefficient
+    std::map<int, int> tokens;
 
     Polynomial::token_t t;
 
@@ -395,11 +394,6 @@ Polynomial Polynomial::operator * (const Polynomial &another) const
     return result;
 }
 
-// // do this
-// Polynomial Polynomial::operator / (const Polynomial &another) const
-// {
-//     return *this;
-// }
 
 Polynomial &Polynomial::operator *= (const Polynomial &another)
 {
@@ -428,12 +422,6 @@ Polynomial &Polynomial::operator *= (const Polynomial &another)
 
     return *this;
 }
-
-// // todo
-// Polynomial &Polynomial::operator /= (const Polynomial &another)
-// {
-//     return *this;
-// }
 
 
 
