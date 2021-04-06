@@ -148,7 +148,6 @@ Polynomial::~Polynomial()
     delete[] _coefficients;
 }
 
-//fixed: get O(n)
 double Polynomial::get(int argument) const
 {
     double result = 0;
@@ -282,7 +281,6 @@ Polynomial Polynomial::operator - () const
     return result;
 }
 
-//fixed: + from +=
 Polynomial Polynomial::operator + (const Polynomial &another) const
 {
     return (Polynomial(*this) += another);
@@ -322,7 +320,7 @@ Polynomial &Polynomial::operator += (const Polynomial &another)
 
     return *this;
 }
-
+//todo without creating new object
 Polynomial &Polynomial::operator -= (const Polynomial &another)
 {
     return (*this) += (-another);
