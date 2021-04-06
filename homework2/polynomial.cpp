@@ -94,7 +94,7 @@ void Polynomial::_trim()
     int new_size = _size - passed;
 
     int *coefficients = new int[new_size];
-    memcpy(coefficients, &this->_get_coefficient(leftBorder), sizeof(int) * new_size);
+    std::memcpy(coefficients, &this->_get_coefficient(leftBorder), sizeof(int) * new_size);
 
     delete[] _coefficients;
     _coefficients = coefficients;
@@ -132,15 +132,10 @@ Polynomial::Polynomial(int min_power, int max_power, int* coefficients)
     }
     else
         std::memset(_coefficients, 0, sizeof(int) * _size);
-    // for (int i = 0; i < _size; ++i)
-    // {
-    //     std::cout << "_coefficients[" << i << "] = " << _coefficients[i] << '\n';
-    // }
 }
 
 Polynomial::Polynomial(const Polynomial& another)
 {
-    //delete[] _coefficients;
     _min_power = another._min_power;
     _max_power = another._max_power;
     _size = another._size;
@@ -152,13 +147,17 @@ Polynomial::~Polynomial()
 {
     delete[] _coefficients;
 }
-//todo get O(n)
+
+//fixed: get O(n)
 double Polynomial::get(int argument) const
 {
     double result = 0;
+    double x = pow(argument, _min_power);
+
     for (int i = 0; i < _size; ++i)
     {
-        result += _coefficients[i] * pow(argument, _min_power + i);
+        result += _coefficients[i] * x;
+        x *= argument;
     }
 
     return result;
@@ -270,43 +269,29 @@ std::istream &operator >> (std::istream &is, Polynomial &pol)
 }
 
 
-Polynomial operator + (const Polynomial& pol)
+Polynomial Polynomial::operator + () const
 {
-    return pol;
+    return *this;
 }
 
-Polynomial operator - (const Polynomial& pol)
+Polynomial Polynomial::operator - () const
 {
-    Polynomial result(pol);
+    Polynomial result(*this);
     for (int i = 0; i < result._size; ++i)
         result._coefficients[i] *= -1;
     return result;
 }
 
-//todo + from +=
+//fixed: + from +=
 Polynomial Polynomial::operator + (const Polynomial &another) const
 {
-    int min_p   = std::min(this->_min_power, another._min_power);
-    int max_p   = std::max(this->_max_power, another._max_power);
-    Polynomial result(min_p, max_p);
-
-    for (int i = min_p; i <= max_p; ++i)
-    {
-        if (i >= this->_min_power && i <= this->_max_power)
-            result._get_coefficient(i) += this->operator[](i);
-        if (i >= another._min_power && i <= another._max_power)
-            result._get_coefficient(i) += another[i];
-    }
-
-    result._trim();
-
-    return result;
+    return (Polynomial(*this) += another);
 }
 
-//todo without creating new object
+//fixed: without creating new object
 Polynomial Polynomial::operator - (const Polynomial &another) const
 {
-    return (*this) + (-another);
+    return (Polynomial(*this) -= another);
 }
 
 Polynomial &Polynomial::operator += (const Polynomial &another)
@@ -316,15 +301,22 @@ Polynomial &Polynomial::operator += (const Polynomial &another)
     int size_p  = max_p - min_p + 1;
 
     int* coefficients = new int[size_p];
-    std::memset(coefficients, 0, size_p);
+    std::memset(coefficients, 0, sizeof(int) * size_p);
 
     for (int i = min_p; i <= max_p; ++i)
     {
         if (i >= this->_min_power && i <= this->_max_power)
-            coefficients[abs(min_p) + i] += this->_get_coefficient(i);
+            coefficients[i - min_p] += this->operator[](i);
         if (i >= another._min_power && i <= another._max_power)
-            coefficients[abs(min_p) + i] += another[i];
+            coefficients[i - min_p] += another[i];
     }
+
+    _min_power = min_p;
+    _max_power = max_p;
+    _size = size_p;
+
+    delete[] _coefficients;
+    _coefficients = coefficients;
 
     this->_trim();
 
@@ -336,7 +328,7 @@ Polynomial &Polynomial::operator -= (const Polynomial &another)
     return (*this) += (-another);
 }
 
-Polynomial Polynomial::operator * (const int &another) const
+Polynomial Polynomial::operator * (int another) const
 {
     Polynomial result(*this);
     for (int i = 0; i < result._size; ++i)
@@ -347,7 +339,7 @@ Polynomial Polynomial::operator * (const int &another) const
     return result;
 }
 
-Polynomial Polynomial::operator / (const int &another) const
+Polynomial Polynomial::operator / (int another) const
 {
     assert(another != 0);
 	Polynomial result(*this);
@@ -364,21 +356,23 @@ Polynomial operator * (const int& another, const Polynomial& pol)
     return pol * another;
 }
 
-Polynomial &Polynomial::operator *= (const int &another)
+Polynomial &Polynomial::operator *= (int another)
 {
-	//todo for_each
-    for (int i = 0; i < _size; ++i)
-        _coefficients[i] *= another;
+    std::for_each(_coefficients, _coefficients + _size, [&](int& c) { c *= another; });
 
     _trim();
 
     return *this;
 }
 
-Polynomial &Polynomial::operator /= (const int &another)
+Polynomial &Polynomial::operator /= (int another)
 {
-	//todo it doesnt work
-    return (*this) *= (1 / another);
+	//fixed: it doesnt work
+    std::for_each(_coefficients, _coefficients + _size, [&](int& c) { c /= another; });
+
+    _trim();
+
+    return *this;
 }
 
 Polynomial Polynomial::operator * (const Polynomial &another) const

@@ -29,7 +29,8 @@ void PolynomialOperators() {
     assert(d * e == d);
     assert(a * b * c == a * (b * c));
     assert(a * b == Polynomial(1, 4, new int[4]{-3, -2, -1, 12}));
-    assert(a + b == b + a);
+    std::cout << "a = " << a << "\nb = " << b << "\na + b = " << (a + b) << "\nb + a = " << (b + a) << '\n';
+	assert(a + b == b + a);
     assert(d + e == e);
     assert(a + b + c == a + (b + c));
     assert(5 * a == a * 5);

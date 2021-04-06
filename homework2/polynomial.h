@@ -4,6 +4,7 @@
 #include <cstring>
 #include <cmath>
 #include <map>
+#include <algorithm>
 
 #define MAX_POLYNOMIAL_POWER  2147483647
 #define MIN_POLYNOMIAL_POWER -2147483648
@@ -40,21 +41,21 @@ public:
     Polynomial operator + (const Polynomial& another) const;
     Polynomial operator - (const Polynomial& another) const;
 
-    //todo method
-    friend Polynomial operator + (const Polynomial& another);
-    friend Polynomial operator - (const Polynomial& another);
+    //fixed: method
+    Polynomial operator + () const;
+    Polynomial operator - () const;
 
     Polynomial& operator += (const Polynomial& another);
     Polynomial& operator -= (const Polynomial& another);
 
 
-    Polynomial operator * (const int& another) const;
-    Polynomial operator / (const int& another) const;
+    Polynomial operator * (int another) const;
+    Polynomial operator / (int another) const;
     friend Polynomial operator * (const int& another, const Polynomial& pol);
 
-    //todo int
-    Polynomial& operator *= (const int& another);
-    Polynomial& operator /= (const int& another);
+    //fixed: int
+    Polynomial& operator *= (int another);
+    Polynomial& operator /= (int another);
 
     Polynomial operator * (const Polynomial& another) const;
     // Polynomial operator / (const Polynomial& another) const;
