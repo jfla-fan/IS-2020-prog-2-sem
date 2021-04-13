@@ -320,10 +320,34 @@ Polynomial &Polynomial::operator += (const Polynomial &another)
 
     return *this;
 }
-//todo without creating new object
+//fixed without creating new object
 Polynomial &Polynomial::operator -= (const Polynomial &another)
 {
-    return (*this) += (-another);
+    int min_p   = std::min(this->_min_power, another._min_power);
+    int max_p   = std::max(this->_max_power, another._max_power);
+    int size_p  = max_p - min_p + 1;
+
+    int* coefficients = new int[size_p];
+    std::memset(coefficients, 0, sizeof(int) * size_p);
+
+    for (int i = min_p; i <= max_p; ++i)
+    {
+        if (i >= this->_min_power && i <= this->_max_power)
+            coefficients[i - min_p] -= this->operator[](i);
+        if (i >= another._min_power && i <= another._max_power)
+            coefficients[i - min_p] -= another[i];
+    }
+
+    _min_power = min_p;
+    _max_power = max_p;
+    _size = size_p;
+
+    delete[] _coefficients;
+    _coefficients = coefficients;
+
+    this->_trim();
+
+    return *this;
 }
 
 Polynomial Polynomial::operator * (int another) const
