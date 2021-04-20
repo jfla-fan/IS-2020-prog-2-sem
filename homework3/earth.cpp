@@ -89,6 +89,7 @@ void Earth::printRoute(const std::string& which_one) const
 {
 	std::cout << "Route " << which_one << " has " << _paths.at(which_one).getStationsNumber() << " stations:\n";
 	
+	//todo range-based
 	for (auto it = _paths.at(which_one).begin(); it != _paths.at(which_one).end(); ++it)
 	{
 		std::cout << (*it)->_name << "[" << (*it)->_location << "]\n";
@@ -107,7 +108,7 @@ void Earth::printRoutes() const
 std::string Earth::getLongestStationsRoute(veh_type vehicle = VEHICLE_TYPE::NONE) const
 {
 	std::pair<std::string, int> result { "", 0 }; // route number / number of stations
-
+	//todo const&
 	for (const auto [route, path] : _paths)
 	{
 		if (path.getStationsNumber() > result.second && 
