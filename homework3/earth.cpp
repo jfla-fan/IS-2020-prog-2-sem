@@ -137,6 +137,7 @@ std::string Earth::getLongestDistanceRoute(veh_type vehicle = VEHICLE_TYPE::NONE
 	return result.first;
 }
 
+//todo first-seconds
 std::string Earth::getLongestStationsStreet() const
 {
 	using street_t = std::pair<std::string, street_type>;
