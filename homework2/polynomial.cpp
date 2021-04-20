@@ -320,7 +320,7 @@ Polynomial &Polynomial::operator += (const Polynomial &another)
 
     return *this;
 }
-//fixed without creating new object
+//todo copy-paste +=
 Polynomial &Polynomial::operator -= (const Polynomial &another)
 {
     int min_p   = std::min(this->_min_power, another._min_power);
