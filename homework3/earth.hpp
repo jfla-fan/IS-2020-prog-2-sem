@@ -22,10 +22,13 @@ public:
 
 	void printRoutes() const;
 
+	// returns the number of route which includes maximum of stations
 	std::string getLongestStationsRoute(veh_type vehicle) const;
 
+	// returns the number of route which has maximum length
 	std::string getLongestDistanceRoute(veh_type vehicle) const;
 
+	// returns the name of street which has maximum stations
 	std::string getLongestStationsStreet() const;
 
 

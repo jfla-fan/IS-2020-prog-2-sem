@@ -105,11 +105,10 @@ std::string::size_type _erase_substr(std::string& str, const std::string& substr
 	return t;
 }
 
-// fix this
 std::vector<std::pair<std::string, street_type>> _get_streets_from_station_location(const std::string& loc) {
 	Tokenizer tokenizer(loc, ",");
 	token_t curr;
-	std::vector<std::pair<std::string, street_type>> streets;
+	std::vector<std::pair<std::string, street_type>> streets; // collection of street name / street type
 	street_type _street_type = STREET_TYPE::NONE;
 
 	while (!tokenizer.isDone())
@@ -118,8 +117,7 @@ std::vector<std::pair<std::string, street_type>> _get_streets_from_station_locat
 
 		if (_erase_substr(curr._value, "улица") != std::string::npos || _erase_substr(curr._value, "ул.") != std::string::npos ||
 			_erase_substr(curr._value, "УЛ.") != std::string::npos || _erase_substr(curr._value, "улица") != std::string::npos ||
-			_erase_substr(curr._value, "УЛИЦА") != std::string::npos || _erase_substr(curr._value, "Ул.") != std::string::npos ||
-			_erase_substr(curr._value, "уЛ.") != std::string::npos)
+			_erase_substr(curr._value, "УЛИЦА") != std::string::npos || _erase_substr(curr._value, "Ул.") != std::string::npos)
 			_street_type = STREET_TYPE::STREET; 
 		
 		else if (_erase_substr(curr._value, "проспект") != std::string::npos || _erase_substr(curr._value, "пр.") != std::string::npos ||
@@ -140,10 +138,11 @@ std::vector<std::pair<std::string, street_type>> _get_streets_from_station_locat
 
 		trim(curr._value);
 
-		if (curr._value.size() != 0) streets.push_back({ curr._value, _street_type });		
+		if (curr._value.size() != 0) 
+			streets.push_back({ curr._value, _street_type });		
 	}
 
-#ifdef DEBUG
+#ifdef DEBUG_TRACING
 	if (streets.size() == 0)
 		std::cerr << "Couldn't find a street for station # " << number << 
 			" with location: " << loc <<"; name: " << name << "\n";
@@ -184,10 +183,12 @@ double _calculate_distance_between_stations(const station_link lhs, const statio
 	return haversine_formula_distance(lhs->_latitude, rhs->_latitude, lhs->_longtitude, rhs->_longtitude);
 }
 
+#ifdef DEBUG_FUNCTIONS
 double _calculate_cartesian_distance(const station_link lhs, const station_link rhs)
 {
 	return sqrt(std::pow(lhs->_latitude - rhs->_latitude, 2) + std::pow(lhs->_longtitude - rhs->_longtitude, 2));
 }
+#endif
 
 std::ostream& operator << (std::ostream& os, const station_t& station)
 {
@@ -262,38 +263,9 @@ std::pair<Path::iterator, double> Path::_order(const station_link value)
 	return { place._iterator, place._dist };
 }
 
-//void Path::sort()
-//{
-//	struct { iterator _iterator; double _dist; bool assigned; } to_swap_object = { begin(), 0.0, false };
-//	double curr_dist;
-//
-//	for (iterator it = begin(); it != end(); ++it) {
-//		for (iterator next = ++iterator(it); next != end(); ++next)
-//		{
-//			if (!to_swap_object.assigned)
-//			{
-//				to_swap_object.assigned = true;
-//				to_swap_object._iterator = it;
-//				to_swap_object._dist = dist(*it, *next);
-//			}
-//			else if ((curr_dist = dist(*it, *next)) < to_swap_object._dist)
-//			{
-//				to_swap_object._iterator = next;
-//				to_swap_object._dist = curr_dist;
-//			}
-//		}
-//
-//		std::swap(*it, *to_swap_object._iterator);
-//	}
-//
-//}
-
 void Path::print_route() const
 {
-	for (auto it = begin(); it != end(); ++it)
-	{
-		std::cout << **it << " ";
-	}
+	std::for_each(begin(), end(), [&](const auto& it) { std::cout << *it << " "; });
 }
 
 void Path::push(const station_link link)

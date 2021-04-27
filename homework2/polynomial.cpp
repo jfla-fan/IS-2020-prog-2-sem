@@ -104,6 +104,33 @@ void Polynomial::_trim()
     _max_power = rightBorder;
 }
 
+void Polynomial::_add(const Polynomial& another, SIGN sign)
+{
+    int min_p   = std::min(this->_min_power, another._min_power);
+    int max_p   = std::max(this->_max_power, another._max_power);
+    int size_p  = max_p - min_p + 1;
+
+    int* coefficients = new int[size_p];
+    std::memset(coefficients, 0, sizeof(int) * size_p);
+
+    for (int i = min_p; i <= max_p; ++i)
+    {
+        if (i >= this->_min_power && i <= this->_max_power)
+            coefficients[i - min_p] += this->operator[](i) * (static_cast<int>(sign));
+        if (i >= another._min_power && i <= another._max_power)
+            coefficients[i - min_p] += another[i] * (static_cast<int>(sign));
+    }
+
+    _min_power = min_p;
+    _max_power = max_p;
+    _size = size_p;
+
+    delete[] _coefficients;
+    _coefficients = coefficients;
+
+    this->_trim();
+}
+
 int& Polynomial::operator [] (int power)
 {
     if (power < _min_power)
@@ -294,58 +321,14 @@ Polynomial Polynomial::operator - (const Polynomial &another) const
 
 Polynomial &Polynomial::operator += (const Polynomial &another)
 {
-    int min_p   = std::min(this->_min_power, another._min_power);
-    int max_p   = std::max(this->_max_power, another._max_power);
-    int size_p  = max_p - min_p + 1;
-
-    int* coefficients = new int[size_p];
-    std::memset(coefficients, 0, sizeof(int) * size_p);
-
-    for (int i = min_p; i <= max_p; ++i)
-    {
-        if (i >= this->_min_power && i <= this->_max_power)
-            coefficients[i - min_p] += this->operator[](i);
-        if (i >= another._min_power && i <= another._max_power)
-            coefficients[i - min_p] += another[i];
-    }
-
-    _min_power = min_p;
-    _max_power = max_p;
-    _size = size_p;
-
-    delete[] _coefficients;
-    _coefficients = coefficients;
-
-    this->_trim();
+    _add(another, SIGN::PLUS);
 
     return *this;
 }
-//todo copy-paste +=
+//fixed copy-paste +=
 Polynomial &Polynomial::operator -= (const Polynomial &another)
 {
-    int min_p   = std::min(this->_min_power, another._min_power);
-    int max_p   = std::max(this->_max_power, another._max_power);
-    int size_p  = max_p - min_p + 1;
-
-    int* coefficients = new int[size_p];
-    std::memset(coefficients, 0, sizeof(int) * size_p);
-
-    for (int i = min_p; i <= max_p; ++i)
-    {
-        if (i >= this->_min_power && i <= this->_max_power)
-            coefficients[i - min_p] -= this->operator[](i);
-        if (i >= another._min_power && i <= another._max_power)
-            coefficients[i - min_p] -= another[i];
-    }
-
-    _min_power = min_p;
-    _max_power = max_p;
-    _size = size_p;
-
-    delete[] _coefficients;
-    _coefficients = coefficients;
-
-    this->_trim();
+    _add(another, SIGN::MINUS);
 
     return *this;
 }

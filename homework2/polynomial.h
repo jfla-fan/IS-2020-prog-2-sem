@@ -63,6 +63,15 @@ public:
     Polynomial& operator *= (const Polynomial& another);
     // Polynomial& operator /= (const Polynomial& another);
 
+protected:
+
+    enum class SIGN { PLUS = 1, MINUS = -1 };
+
+    void _expand(int min_power, int max_power);
+    inline int& _get_coefficient(int power);
+    void _trim();
+    void _add(const Polynomial& another, SIGN sign);
+
 
 private:
 
@@ -77,9 +86,6 @@ private:
         std::istream& operator >> (std::istream& is);
     } token_t;
 
-    void _expand(int min_power, int max_power);
-    inline int& _get_coefficient(int power);
-    void _trim();
 
     int _min_power, _max_power;
     int* _coefficients;

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _TOKENIZER_HEADER_
+#define _TOKENIZER_HEADER_
+
 #include <string>
 #include <cstring>
 #include <algorithm>
@@ -34,6 +36,9 @@ public:
 
 	inline std::string getDelimeter() const { return _delimeter; }
 
+	/*
+		returns next token or NULL_TOKEN (TOKENIZER::UNITIALIZER_TOKEN) if none
+	*/
 	token_t next();
 
 	inline bool isDone() const { return _done; }
@@ -49,3 +54,5 @@ private:
 	std::string _delimeter;
 
 };
+
+#endif // _TOKENIZER_HEADER_

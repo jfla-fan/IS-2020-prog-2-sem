@@ -42,7 +42,6 @@ bool Earth::loadFromXml(std::string from)
 			continue;
 		}
 
-		//std::cout << "Got routes from iterator - " << routes << '\n';
 		std::replace(routes.begin(), routes.end(), '.', ',');
 
 		tokenizer = Tokenizer(routes, ",");
@@ -50,7 +49,6 @@ bool Earth::loadFromXml(std::string from)
 		while (!tokenizer.isDone())
 		{
 			token = tokenizer.next();
-			//std::cout << "Got token from tokenizer: " << token << '\n';
 			curr_station->_routes.push_back(token._value);
 		}
 
@@ -89,27 +87,22 @@ void Earth::printRoute(const std::string& which_one) const
 {
 	std::cout << "Route " << which_one << " has " << _paths.at(which_one).getStationsNumber() << " stations:\n";
 	
-	//todo range-based
-	for (auto it = _paths.at(which_one).begin(); it != _paths.at(which_one).end(); ++it)
-	{
-		std::cout << (*it)->_name << "[" << (*it)->_location << "]\n";
-	}
+	//fixed range-based
+	std::for_each(_paths.at(which_one).begin(), _paths.at(which_one).end(), 
+				[](const auto& it) { std::cout << it->_name << "[" << it->_location << "]\n"; } );
 }
 
 
 void Earth::printRoutes() const
 {
-	for (const auto& p : _paths)
-	{
-		printRoute(p.first);
-	}
+	std::for_each(_paths.begin(), _paths.end(), [&](const auto& p) { printRoute(p.first); });
 }
 
 std::string Earth::getLongestStationsRoute(veh_type vehicle = VEHICLE_TYPE::NONE) const
 {
 	std::pair<std::string, int> result { "", 0 }; // route number / number of stations
-	//todo const&
-	for (const auto [route, path] : _paths)
+	//fixed const&
+	for (const auto& [route, path] : _paths)
 	{
 		if (path.getStationsNumber() > result.second && 
 			(vehicle == veh_type::NONE || path.getVehicleType() == vehicle)) [[likely]]
@@ -123,9 +116,9 @@ std::string Earth::getLongestStationsRoute(veh_type vehicle = VEHICLE_TYPE::NONE
 
 std::string Earth::getLongestDistanceRoute(veh_type vehicle = VEHICLE_TYPE::NONE) const
 {
-	std::pair<std::string, double> result{ "", 0.0 }; // route number / number of stations
+	std::pair<std::string, double> result{ "", 0.0 }; // route number / route length
 
-	for (const auto [route, path] : _paths)
+	for (const auto& [route, path] : _paths)
 	{
 		if (path.getLength() > result.second &&
 			(vehicle == veh_type::NONE || path.getVehicleType() == vehicle))
@@ -137,7 +130,7 @@ std::string Earth::getLongestDistanceRoute(veh_type vehicle = VEHICLE_TYPE::NONE
 	return result.first;
 }
 
-//todo first-seconds
+//fixed first-seconds
 std::string Earth::getLongestStationsStreet() const
 {
 	using street_t = std::pair<std::string, street_type>;
@@ -160,13 +153,18 @@ std::string Earth::getLongestStationsStreet() const
 		}
 	}
 
-	struct { street_t _street; int _frequency; } mostFrequentStreet = 
-		{ streetsToStationsCount.begin()->first, streetsToStationsCount.begin()->second }; 
-	
+	const auto& [ firstStreet, firstFrequency ] = *streetsToStationsCount.begin();
+
+	street_t mostFrequentStreet = firstStreet;
+	int 	 highestFrequency = firstFrequency;
+
 	for (const auto& [street, frequency] : streetsToStationsCount)
 	{
-		if (frequency > mostFrequentStreet._frequency)
-			mostFrequentStreet = { street, frequency };
+		if (frequency > highestFrequency)
+		{
+			mostFrequentStreet = street;
+			highestFrequency = frequency;
+		}
 	}
 
 #ifdef DEBUG_TRACING
@@ -178,6 +176,8 @@ std::string Earth::getLongestStationsStreet() const
 	}
 #endif
 
-	return std::string(street_to_str(mostFrequentStreet._street.second)) + " " + 
-			mostFrequentStreet._street.first + " - " + std::to_string(mostFrequentStreet._frequency); 
+	const auto& [streetName, typeOfStreet] = mostFrequentStreet;
+
+	return std::string(street_to_str(typeOfStreet)) + " " + 
+			streetName + " - " + std::to_string(highestFrequency); 
 }

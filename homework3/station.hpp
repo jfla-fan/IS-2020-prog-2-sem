@@ -25,27 +25,27 @@
 
 #define object_to_str(obj) _transform_object_to_str((obj))
 
-#define street_to_str(street) _transform_street_to_str(street)
+#define street_to_str(street) _transform_street_to_str((street))
 
 #define dist(station1_link, station2_link) _calculate_distance_between_stations((station1_link), (station2_link))
 
-#define get_streets(location) _get_streets_from_station_location(location)
+#define get_streets(location) _get_streets_from_station_location((location))
 
 #define to_radians(angle) ((angle) * M_PI / 180)  
 
-#define ltrim(str) _ltrim(str)
+#define ltrim(str) _ltrim((str))
 
-#define rtrim(str) _rtrim(str)
+#define rtrim(str) _rtrim((str))
 
-#define trim(str) _trim(str)
+#define trim(str) _trim((str))
 
-#define ltrim_copy(str) _ltrim_copy(str)
+#define ltrim_copy(str) _ltrim_copy((str))
 
-#define rtrim_copy(str) _rtrim_copy(str)
+#define rtrim_copy(str) _rtrim_copy((str))
 
-#define trim_copy(str)  _trim_copy(str)
+#define trim_copy(str)  _trim_copy((str))
 
-#define erase_substr(str, substr) _earse_substr(str, substr)
+#define erase_substr(str, substr) _earse_substr((str), (substr))
 
 static const double EARTH_RADIUS = 6371e3; // in meters
 
@@ -113,10 +113,10 @@ const char* _transform_object_to_str(OBJECT_TYPE obj);
 typedef enum class STREET_TYPE
 {
 	NONE,
-	STREET,
-	HIGHWAY,
-	AVENUE,
-	PLATFORM
+	STREET,			// улица
+	HIGHWAY,		// шоссе
+	AVENUE,			// проспект
+	PLATFORM		// платформа
 } street_type;
 
 STREET_TYPE _transform_to_street_type(const char *str);
@@ -145,16 +145,17 @@ typedef station_t* station_link;
 
 double _calculate_distance_between_stations(const station_link lhs, const station_link rhs);
 
+/* splits given string based on ',' delimeter and process every part, filtering on  */
 std::vector<std::pair<std::string, street_type>> _get_streets_from_station_location(const std::string& loc);
 
-#ifdef DEBUG
+#ifdef DEBUG_FUNCTIONS
 double _calculate_cartesian_distance(const station_link lhs, const station_link rhs);
 #endif
 
 std::ostream& operator << (std::ostream& os, const station_t& station);
 
 
-// path contains station links of a specified route number in an appropriate order
+// path contains station links of a specified route number and in an appropriate order
 class Path
 {
 public:
@@ -188,15 +189,16 @@ public:
 
 	inline void		setVehicleType(veh_type t) { _vehicle = t; }
 
-	//void sort();
-
 	void print_route() const;
 
+	// inserts station link into path list so the list saves the order;
+	// increases full path length
 	void push(const station_link link);
 
 
 
 	_NODISCARD inline bool empty() const { return _stations.empty(); }
+
 
 	_NODISCARD inline iterator					begin() { return _stations.begin(); }
 
@@ -221,8 +223,14 @@ public:
 
 private:
 
+	/*
+		returns a pair of an iterator and double value
+		double value represents minimal distance between neighbour stations
+		station what should be placed at (iterator - 1) position
+	*/
 	std::pair<iterator, double> _order(const station_link what);
 	
+	// calculates the full length of the route
 	double _get_final_length() const;
 
 
