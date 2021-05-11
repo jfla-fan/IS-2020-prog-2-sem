@@ -28,9 +28,10 @@ public:
 	// returns the number of route which has maximum length
 	std::string getLongestDistanceRoute(veh_type vehicle) const;
 
+	#if __cplusplus > 201703L
 	// returns the name of street which has maximum stations
 	std::string getLongestStationsStreet() const;
-
+	#endif
 
 private:
 

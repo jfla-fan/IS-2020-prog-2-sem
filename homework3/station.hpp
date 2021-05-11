@@ -4,6 +4,7 @@
 #define _USE_MATH_DEFINES
 #define _NODISCARD [[nodiscard]]
 
+
 #include <string>
 #include <list>
 #include <math.h>

@@ -13,7 +13,7 @@ int main(int argc, char** argv)
 	std::cerr << "NEED -std=c++2a (or -std=c++20) flag\n";
 	std::cerr << "Current - " << __cplusplus << '\n';
 	return EXIT_SUCCESS;
-#endif
+#else
 
 	initialize_system_encoding();
 
@@ -55,4 +55,5 @@ int main(int argc, char** argv)
 	std::cout << "Most Frequent Stations Street - " << mostFrequentStationsStreet << '\n';
 
 	return 0;
+#endif
 }
