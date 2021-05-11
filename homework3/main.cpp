@@ -5,8 +5,16 @@
 
 
 
+
+
 int main(int argc, char** argv)
 {
+#if __cplusplus <= 201703L
+	std::cerr << "NEED -std=c++2a (or -std=c++20) flag\n";
+	std::cerr << "Current - " << __cplusplus << '\n';
+	return EXIT_SUCCESS;
+#endif
+
 	initialize_system_encoding();
 
 	Earth earth;

@@ -88,9 +88,12 @@ void Earth::printRoute(const std::string& which_one) const
 	std::cout << "Route " << which_one << " has " << _paths.at(which_one).getStationsNumber() << " stations:\n";
 	
 	//fixed range-based
-	//todo its for_each, not range-based for
-	std::for_each(_paths.at(which_one).begin(), _paths.at(which_one).end(), 
-				[](const auto& it) { std::cout << it->_name << "[" << it->_location << "]\n"; } );
+	//fixed its for_each, not range-based for
+
+	for (const auto& link : _paths.at(which_one))
+	{
+		std::cout << link->_name << "[" << link->_location << "]\n";
+	}
 }
 
 
@@ -101,34 +104,40 @@ void Earth::printRoutes() const
 
 std::string Earth::getLongestStationsRoute(veh_type vehicle = VEHICLE_TYPE::NONE) const
 {
-	//todo do you really need pair?
-	std::pair<std::string, int> result { "", 0 }; // route number / number of stations
+	//fixed do you really need pair?
+	std::string resultRoute = "";
+	int resultStationsNumber = 0;
+	
 	for (const auto& [route, path] : _paths)
 	{
-		if (path.getStationsNumber() > result.second && 
+		if (path.getStationsNumber() > resultStationsNumber && 
 			(vehicle == veh_type::NONE || path.getVehicleType() == vehicle)) [[likely]]
 		{
-			result = { route, path.getStationsNumber() };
+			resultRoute = route;
+			resultStationsNumber = path.getStationsNumber();	
 		}
 	}
 
-	return result.first;
+	return resultRoute;
 }
 
 std::string Earth::getLongestDistanceRoute(veh_type vehicle = VEHICLE_TYPE::NONE) const
 {
-	std::pair<std::string, double> result{ "", 0.0 }; // route number / route length
-
+	std::string resultRoute = "";
+	double resultRouteLength = 0.0;
+	
 	for (const auto& [route, path] : _paths)
 	{
-		if (path.getLength() > result.second &&
+		if (path.getLength() > resultRouteLength &&
 			(vehicle == veh_type::NONE || path.getVehicleType() == vehicle))
 		{
-			result = { route, path.getLength() };
+			resultRoute = route;
+			resultRouteLength = path.getLength();
+		
 		}
 	}
 
-	return result.first;
+	return resultRoute;
 }
 
 //fixed first-seconds
