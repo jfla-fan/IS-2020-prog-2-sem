@@ -6,8 +6,9 @@
 #include <set>
 #include <iterator>
 #include <functional>
-using namespace std;
 
+
+using namespace std;
 
 class myForwardIterator : public vector<int>::iterator {
     using T = vector<int>::iterator;
@@ -21,15 +22,7 @@ public:
 };
 
 
-
-
-
-
-int main()
-{
-    std::vector<int> v {5, 2, 1, 12, 5};
-    std::vector<int> v2 {-1, 12, 15};
-
+void check() {
 	vector<int> a{1, 2, 3, 4};
 	vector<int> b{1, 2, 3, 4, 2};
 	vector<int> c{4, 3, 2, 1, 0};
@@ -74,7 +67,7 @@ int main()
 	assert(isPalindrome(g.begin(), g.end(), [](int x, int y){return x == y;}));
 	assert(isSorted(h.begin(), h.end(), [](pair<int, int> x, pair<int, int> y) {return x < y;}));
 	assert(isSorted(h.begin(), h.end()));
-
-
-    return 0;
+}
+int main() {
+    check();
 }

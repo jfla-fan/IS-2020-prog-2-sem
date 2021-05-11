@@ -65,6 +65,7 @@ bool oneOf(InputIt first, InputIt last, UnaryPredicate predicate)
     return exist;
 }
 
+//todo use default template argument
 template<class ForwardIt, class Compare>
 bool isSorted(ForwardIt first, ForwardIt last, Compare comparator)
 {
