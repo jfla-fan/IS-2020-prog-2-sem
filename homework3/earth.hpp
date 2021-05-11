@@ -6,6 +6,11 @@
 #include "pugixml.hpp"
 #include <map>
 
+#if __cplusplus > 201703L
+#define CPLUSPLUS_20_ALLOWED_ONLY(...) __VA_ARGS__
+#else
+#define CPLUSPLUS_20_ALLOWED_ONLY(...)
+#endif
 
 
 class Earth
@@ -28,10 +33,9 @@ public:
 	// returns the number of route which has maximum length
 	std::string getLongestDistanceRoute(veh_type vehicle) const;
 
-	#if __cplusplus > 201703L
 	// returns the name of street which has maximum stations
-	std::string getLongestStationsStreet() const;
-	#endif
+	CPLUSPLUS_20_ALLOWED_ONLY(std::string getLongestStationsStreet() const;)
+
 
 private:
 

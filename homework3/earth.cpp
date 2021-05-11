@@ -141,7 +141,7 @@ std::string Earth::getLongestDistanceRoute(veh_type vehicle = VEHICLE_TYPE::NONE
 }
 
 //fixed first-seconds
-#if __cplusplus > 201703L
+CPLUSPLUS_20_ALLOWED_ONLY(
 std::string Earth::getLongestStationsStreet() const
 {
 	using street_t = std::pair<std::string, street_type>;
@@ -192,4 +192,4 @@ std::string Earth::getLongestStationsStreet() const
 	return std::string(street_to_str(typeOfStreet)) + " " + 
 			streetName + " - " + std::to_string(highestFrequency); 
 }
-#endif
+)
