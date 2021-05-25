@@ -4,6 +4,7 @@
 #include <functional>
 #include <iterator>
 
+
 template<class InputIt, class UnaryPredicate>
 bool allOf(InputIt first, InputIt last, UnaryPredicate predicate)
 {
@@ -65,9 +66,9 @@ bool oneOf(InputIt first, InputIt last, UnaryPredicate predicate)
     return exist;
 }
 
-//todo use default template argument
-template<class ForwardIt, class Compare>
-bool isSorted(ForwardIt first, ForwardIt last, Compare comparator)
+//fixed use default template argument
+template<class ForwardIt, class Compare = std::less<>>
+bool isSorted(ForwardIt first, ForwardIt last, Compare comparator = std::less<>())
 {
     if (first != last)
     {
@@ -86,12 +87,6 @@ bool isSorted(ForwardIt first, ForwardIt last, Compare comparator)
     return true;
 }
 
-template<class ForwardIt>
-bool isSorted(ForwardIt first, ForwardIt last)
-{
-    return isSorted(first, last, std::less<>());
-}
-
 template<class InputIt, class UnaryPredicate>
 bool isPartitioned(InputIt first, InputIt last, UnaryPredicate predicate)
 {
@@ -106,8 +101,8 @@ bool isPartitioned(InputIt first, InputIt last, UnaryPredicate predicate)
     return true;
 }
 
-template<class InputIt, class ValueT, class Compare>
-InputIt findNot(InputIt first, InputIt last, const ValueT& value, Compare comp)
+template<class InputIt, class ValueT, class Compare = std::equal_to<ValueT>>
+InputIt findNot(InputIt first, InputIt last, const ValueT& value, Compare comp = std::equal_to<ValueT>())
 {
     for (; first != last; ++first)
     {
@@ -118,16 +113,8 @@ InputIt findNot(InputIt first, InputIt last, const ValueT& value, Compare comp)
     return last;
 }
 
-
-template<class InputIt, class ValueT>
-InputIt findNot(InputIt first, InputIt last, const ValueT& value)
-{
-    return findNot(first, last, value, std::equal_to<ValueT>());
-}
-
-
-template<class ForwardIt, class ValueT, class Compare>
-ForwardIt findBackward(ForwardIt first, ForwardIt last, const ValueT& value, Compare comp)
+template<class ForwardIt, class ValueT, class Compare = std::equal_to<ValueT>>
+ForwardIt findBackward(ForwardIt first, ForwardIt last, const ValueT& value, Compare comp = std::equal_to<ValueT>())
 {
     ForwardIt result = last;
 
@@ -140,14 +127,8 @@ ForwardIt findBackward(ForwardIt first, ForwardIt last, const ValueT& value, Com
     return result;
 }
 
-template<class ForwardIt, class ValueT>
-ForwardIt findBackward(ForwardIt first, ForwardIt last, const ValueT& value)
-{
-    return findBackward(first, last, value, std::equal_to<ValueT>());   
-}
-
-template<class ForwardIt, class Compare>
-bool isPalindrome(ForwardIt first, ForwardIt last, Compare comp)
+template<class ForwardIt, class Compare = std::equal_to<>>
+bool isPalindrome(ForwardIt first, ForwardIt last, Compare comp = std::equal_to<>())
 {
     int dist = std::distance(first, last);
     ForwardIt firstCopy, lastCopy;
@@ -162,12 +143,6 @@ bool isPalindrome(ForwardIt first, ForwardIt last, Compare comp)
     }
 
     return true;
-}
-
-template<class ForwardIt>
-bool isPalindrome(ForwardIt first, ForwardIt last)
-{
-    return isPalindrome(first, last, std::less<>());
 }
 
 #endif  // _PREDICATE_HPP_
