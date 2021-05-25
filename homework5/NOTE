@@ -1,0 +1,86 @@
+Pulling https://github.com/jfla-fan/IS-2020-prog-2-sem/homework5
+Pull finished
+It's compiled
+circular_buffer: out of range
+2
+circular_buffer: out of range
+Everything is ok
+
+In file included from main.cpp:10:
+CircularBuffer.hpp:127:12: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
+  127 |     inline const_pointer data() const { return &_buffer[_pos]; }
+      |            ^~~~~~~~~~~~~
+In file included from main.cpp:10:
+CircularBuffer.hpp: In instantiation of 'circular_buffer_iterator<ValueT>::circular_buffer_iterator(circular_buffer_iterator<ValueT>::pointer, int, int) [with ValueT = const int; circular_buffer_iterator<ValueT>::pointer = const int*; circular_buffer_iterator<ValueT>::value_type = const int]':
+CircularBuffer.hpp:319:12:   required from 'CircularBuffer<ValueT, AllocatorT>::const_iterator CircularBuffer<ValueT, AllocatorT>::begin() const [with ValueT = int; AllocatorT = std::allocator<int>; CircularBuffer<ValueT, AllocatorT>::const_iterator = circular_buffer_iterator<const int>]'
+main.cpp:65:30:   required from here
+CircularBuffer.hpp:163:9: warning: 'circular_buffer_iterator<const int>::_pos' will be initialized after [-Wreorder]
+  163 |     int _pos;
+      |         ^~~~
+CircularBuffer.hpp:161:9: warning:   'int circular_buffer_iterator<const int>::_length' [-Wreorder]
+  161 |     int _length;
+      |         ^~~~~~~
+In file included from main.cpp:10:
+CircularBuffer.hpp:123:5: warning:   when initialized here [-Wreorder]
+  123 |     circular_buffer_iterator(pointer buffer, int pos, int length) : _buffer(buffer), _pos(pos), _length(length) { }
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~
+In file included from main.cpp:10:
+CircularBuffer.hpp: In instantiation of 'circular_buffer_iterator<ValueT>::circular_buffer_iterator(circular_buffer_iterator<ValueT>::pointer, int, int) [with ValueT = int; circular_buffer_iterator<ValueT>::pointer = int*; circular_buffer_iterator<ValueT>::value_type = int]':
+CircularBuffer.hpp:314:12:   required from 'CircularBuffer<ValueT, AllocatorT>::iterator CircularBuffer<ValueT, AllocatorT>::begin() [with ValueT = int; AllocatorT = std::allocator<int>; CircularBuffer<ValueT, AllocatorT>::iterator = circular_buffer_iterator<int>]'
+main.cpp:191:15:   required from here
+CircularBuffer.hpp:163:9: warning: 'circular_buffer_iterator<int>::_pos' will be initialized after [-Wreorder]
+  163 |     int _pos;
+      |         ^~~~
+CircularBuffer.hpp:161:9: warning:   'int circular_buffer_iterator<int>::_length' [-Wreorder]
+  161 |     int _length;
+      |         ^~~~~~~
+In file included from main.cpp:10:
+CircularBuffer.hpp:123:5: warning:   when initialized here [-Wreorder]
+  123 |     circular_buffer_iterator(pointer buffer, int pos, int length) : _buffer(buffer), _pos(pos), _length(length) { }
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~
+In file included from main.cpp:10:
+CircularBuffer.hpp: In instantiation of 'circular_buffer_iterator<ValueT>::self circular_buffer_iterator<ValueT>::operator+(circular_buffer_iterator<ValueT>::difference_type) [with ValueT = int; circular_buffer_iterator<ValueT>::self = circular_buffer_iterator<int>; circular_buffer_iterator<ValueT>::difference_type = int]':
+c:\mingw\lib\gcc\mingw32\9.2.0\include\c++\bits\stl_algo.h:1884:43:   required from 'void std::__final_insertion_sort(_RandomAccessIterator, _RandomAccessIterator, _Compare) [with _RandomAccessIterator = circular_buffer_iterator<int>; _Compare = __gnu_cxx::__ops::_Iter_less_iter]'
+c:\mingw\lib\gcc\mingw32\9.2.0\include\c++\bits\stl_algo.h:1970:31:   required from 'void std::__sort(_RandomAccessIterator, _RandomAccessIterator, _Compare) [with _RandomAccessIterator = circular_buffer_iterator<int>; _Compare = __gnu_cxx::__ops::_Iter_less_iter]'
+c:\mingw\lib\gcc\mingw32\9.2.0\include\c++\bits\stl_algo.h:4828:18:   required from 'void std::sort(_RAIter, _RAIter) [with _RAIter = circular_buffer_iterator<int>]'
+main.cpp:191:25:   required from here
+CircularBuffer.hpp:147:50: warning: implicitly-declared 'constexpr circular_buffer_iterator<int>::circular_buffer_iterator(const circular_buffer_iterator<int>&)' is deprecated [-Wdeprecated-copy]
+  147 |     self operator + (difference_type n) { return self(*this) += n; }
+      |                                                  ^~~~~~~~~~~
+In file included from main.cpp:10:
+CircularBuffer.hpp:139:20: note: because 'circular_buffer_iterator<int>' has user-provided 'circular_buffer_iterator<ValueT>::self& circular_buffer_iterator<ValueT>::operator=(circular_buffer_iterator<ValueT>::self_reference) [with ValueT = int; circular_buffer_iterator<ValueT>::self_reference = circular_buffer_iterator<int>&; circular_buffer_iterator<ValueT>::self = circular_buffer_iterator<int>]'
+  139 |     self_reference operator = (const self_reference another) { _length = another._length; _buffer = another._buffer; _pos = another._pos; return *this; }
+      |                    ^~~~~~~~
+In file included from main.cpp:10:
+CircularBuffer.hpp:147:65: warning: implicitly-declared 'constexpr circular_buffer_iterator<int>::circular_buffer_iterator(const circular_buffer_iterator<int>&)' is deprecated [-Wdeprecated-copy]
+  147 |     self operator + (difference_type n) { return self(*this) += n; }
+      |                                                                 ^
+In file included from main.cpp:10:
+CircularBuffer.hpp:139:20: note: because 'circular_buffer_iterator<int>' has user-provided 'circular_buffer_iterator<ValueT>::self& circular_buffer_iterator<ValueT>::operator=(circular_buffer_iterator<ValueT>::self_reference) [with ValueT = int; circular_buffer_iterator<ValueT>::self_reference = circular_buffer_iterator<int>&; circular_buffer_iterator<ValueT>::self = circular_buffer_iterator<int>]'
+  139 |     self_reference operator = (const self_reference another) { _length = another._length; _buffer = another._buffer; _pos = another._pos; return *this; }
+      |                    ^~~~~~~~
+In file included from main.cpp:10:
+CircularBuffer.hpp: In instantiation of 'circular_buffer_iterator<ValueT>::self circular_buffer_iterator<ValueT>::operator-(circular_buffer_iterator<ValueT>::difference_type) [with ValueT = int; circular_buffer_iterator<ValueT>::self = circular_buffer_iterator<int>; circular_buffer_iterator<ValueT>::difference_type = int]':
+c:\mingw\lib\gcc\mingw32\9.2.0\include\c++\bits\stl_algo.h:1920:71:   required from '_RandomAccessIterator std::__unguarded_partition_pivot(_RandomAccessIterator, _RandomAccessIterator, _Compare) [with _RandomAccessIterator = circular_buffer_iterator<int>; _Compare = __gnu_cxx::__ops::_Iter_less_iter]'
+c:\mingw\lib\gcc\mingw32\9.2.0\include\c++\bits\stl_algo.h:1952:38:   required from 'void std::__introsort_loop(_RandomAccessIterator, _RandomAccessIterator, _Size, _Compare) [with _RandomAccessIterator = circular_buffer_iterator<int>; _Size = int; _Compare = __gnu_cxx::__ops::_Iter_less_iter]'
+c:\mingw\lib\gcc\mingw32\9.2.0\include\c++\bits\stl_algo.h:1967:25:   required from 'void std::__sort(_RandomAccessIterator, _RandomAccessIterator, _Compare) [with _RandomAccessIterator = circular_buffer_iterator<int>; _Compare = __gnu_cxx::__ops::_Iter_less_iter]'
+c:\mingw\lib\gcc\mingw32\9.2.0\include\c++\bits\stl_algo.h:4828:18:   required from 'void std::sort(_RAIter, _RAIter) [with _RAIter = circular_buffer_iterator<int>]'
+main.cpp:191:25:   required from here
+CircularBuffer.hpp:150:50: warning: implicitly-declared 'constexpr circular_buffer_iterator<int>::circular_buffer_iterator(const circular_buffer_iterator<int>&)' is deprecated [-Wdeprecated-copy]
+  150 |     self operator - (difference_type n) { return self(*this) -= n; }
+      |                                                  ^~~~~~~~~~~
+In file included from main.cpp:10:
+CircularBuffer.hpp:139:20: note: because 'circular_buffer_iterator<int>' has user-provided 'circular_buffer_iterator<ValueT>::self& circular_buffer_iterator<ValueT>::operator=(circular_buffer_iterator<ValueT>::self_reference) [with ValueT = int; circular_buffer_iterator<ValueT>::self_reference = circular_buffer_iterator<int>&; circular_buffer_iterator<ValueT>::self = circular_buffer_iterator<int>]'
+  139 |     self_reference operator = (const self_reference another) { _length = another._length; _buffer = another._buffer; _pos = another._pos; return *this; }
+      |                    ^~~~~~~~
+In file included from main.cpp:10:
+CircularBuffer.hpp:150:65: warning: implicitly-declared 'constexpr circular_buffer_iterator<int>::circular_buffer_iterator(const circular_buffer_iterator<int>&)' is deprecated [-Wdeprecated-copy]
+  150 |     self operator - (difference_type n) { return self(*this) -= n; }
+      |                                                                 ^
+In file included from main.cpp:10:
+CircularBuffer.hpp:139:20: note: because 'circular_buffer_iterator<int>' has user-provided 'circular_buffer_iterator<ValueT>::self& circular_buffer_iterator<ValueT>::operator=(circular_buffer_iterator<ValueT>::self_reference) [with ValueT = int; circular_buffer_iterator<ValueT>::self_reference = circular_buffer_iterator<int>&; circular_buffer_iterator<ValueT>::self = circular_buffer_iterator<int>]'
+  139 |     self_reference operator = (const self_reference another) { _length = another._length; _buffer = another._buffer; _pos = another._pos; return *this; }
+      |                    ^~~~~~~~
+
+
+
