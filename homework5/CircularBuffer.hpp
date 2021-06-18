@@ -3,12 +3,15 @@
 #include <cstring>
 
 
+//fixed warnings: no need to get rid of -Wdeprecated-copy warnings, the others are done
 template<typename ValueT>
 class circular_buffer_iterator;
 
 template<typename ValueT>
 using circular_buffer_const_iterator = circular_buffer_iterator<const ValueT>;
 
+
+//fixed use size_t index and length in exception output
 class circular_buffer_exception : public std::exception
 {
     virtual const char* what() const noexcept override { return "circular_buffer_exception"; }
@@ -16,7 +19,19 @@ class circular_buffer_exception : public std::exception
 
 class out_of_range : public circular_buffer_exception
 {
-    virtual const char* what() const noexcept override { return "circular_buffer: out of range"; }
+public:
+    out_of_range(std::size_t where, int length) : circular_buffer_exception(), _index(where), _length(length) { }
+
+    virtual const char* what() const noexcept override 
+    {
+        char* message = new char[100];
+        std::sprintf(message, "circular_buffer: out of range (index = %lu, length = %d)", _index, _length);
+        return message; 
+    }
+
+protected:
+    std::size_t _index;
+    int _length;
 };
 
 template<
@@ -118,17 +133,15 @@ public:
     using reference = value_type&;
     using const_reference = const reference;
 
-    circular_buffer_iterator() : _buffer(nullptr), _pos(-1), _length(-1) { }
+    circular_buffer_iterator() : _buffer(nullptr), _length(-1), _pos(-1) { }
 
-    circular_buffer_iterator(pointer buffer, int pos, int length) : _buffer(buffer), _pos(pos), _length(length) { }
+    circular_buffer_iterator(pointer buffer, int pos, int length) : _buffer(buffer), _length(length), _pos(pos) { }
 
-    inline pointer data() { return &_buffer[_pos]; }
+    ~circular_buffer_iterator() = default;
 
-    inline const_pointer data() const { return &_buffer[_pos]; }
+    inline pointer data() const { return &_buffer[_pos]; }
 
-    inline reference operator * () { return _buffer[_pos]; }
-
-    inline const_reference operator * () const { return _buffer[_pos]; }
+    inline reference operator * () const { return _buffer[_pos]; }
 
     inline bool operator != (const circular_buffer_iterator& another) const { return data() != another.data(); }
 
@@ -136,7 +149,7 @@ public:
 
     inline bool operator < (const circular_buffer_iterator& another) const { return operator*() < *another; }
 
-    self_reference operator = (const self_reference another) { _length = another._length; _buffer = another._buffer; _pos = another._pos; return *this; }
+    self_reference operator = (const self_reference another) { _buffer = another._buffer; _length = another._length; _pos = another._pos; return *this; }
 
     self_reference operator++() { _pos = (_pos + 1) % _length; return *this; }
     self operator++(int) { self tmp = self(*this); ++(*this); return tmp; }
@@ -164,8 +177,6 @@ private:
 
 };
 
-
-// #include "CircularBuffer.hpp"
 
 template<typename ValueT, typename AllocatorT> int CircularBuffer<ValueT, AllocatorT>::_increment(int pos) const
 {
@@ -205,14 +216,14 @@ template<class ValueT, class AllocatorT> CircularBuffer<ValueT, AllocatorT>::~Ci
 
 template<class ValueT, class AllocatorT> typename CircularBuffer<ValueT, AllocatorT>::reference CircularBuffer<ValueT, AllocatorT>::operator [] (int index)
 { 
-    if (index + 1 > capacity) throw out_of_range{};
+    if (index + 1 > capacity) throw out_of_range(index, capacity);
     int where = (start_pos + index + 1) % length;
     return buffer[where]; 
 }
 
 template<class ValueT, class AllocatorT> typename CircularBuffer<ValueT, AllocatorT>::const_reference CircularBuffer<ValueT, AllocatorT>::operator [] (int index) const
 { 
-    if (index + 1 > capacity) throw out_of_range{};
+    if (index + 1 > capacity) throw out_of_range(index, capacity);
     int where = (start_pos + index + 1) % length;
     return buffer[where]; 
 }
@@ -282,27 +293,27 @@ template<class ValueT, class AllocatorT> void CircularBuffer<ValueT, AllocatorT>
 
 template<class ValueT, class AllocatorT> void CircularBuffer<ValueT, AllocatorT>::delFirst()
 {
-    if (capacity == 0) throw out_of_range{};
+    if (capacity == 0) throw out_of_range(0, 0);
     --capacity;
     start_pos = _increment(start_pos);
 }
 
 template<class ValueT, class AllocatorT> void CircularBuffer<ValueT, AllocatorT>::delLast()
 {
-    if (capacity == 0) throw out_of_range{};
+    if (capacity == 0) throw out_of_range(0, 0);
     --capacity;
     end_pos = _decrement(end_pos);
 }
 
 template<class ValueT, class AllocatorT> typename CircularBuffer<ValueT, AllocatorT>::value_type CircularBuffer<ValueT, AllocatorT>::first() const
 {
-    if (capacity == 0) throw out_of_range{};
+    if (capacity == 0) throw out_of_range(0, 0);
     return buffer[_increment(start_pos)];
 }
 
 template<class ValueT, class AllocatorT> typename CircularBuffer<ValueT, AllocatorT>::value_type CircularBuffer<ValueT, AllocatorT>::last() const
 {
-    if (capacity == 0) throw out_of_range{};
+    if (capacity == 0) throw out_of_range(0, 0);
     return buffer[_decrement(end_pos)];
 }
 
